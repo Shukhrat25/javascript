@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
     let tab = document.querySelectorAll('.info-header-tab'),
@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    infoHeader.addEventListener('click', function (event) {
+    infoHeader.addEventListener('click', (event) => {
         let target = event.target;
         if (target && target.classList.contains('info-header-tab')) {
             for (let i = 0; i < tab.length; i++) {
@@ -80,25 +80,26 @@ window.addEventListener('DOMContentLoaded', function () {
     let more = document.querySelector('.more'),
         overlay = document.querySelector('.overlay'),
         info = document.querySelector('.info'),
-        descrBtn = document.getElementsByClassName('.description-btn'),
+        descrBtn = document.getElementsByClassName('.description-btn')[0],
         close = document.querySelector('.popup-close');
 
 
-    info.addEventListener('click', function(event) {
-        if (event.target && event.target.className == 'description-btn') {
+    info.addEventListener('click', (event) => {
+        let target = event.target;
+        if (target && target.classList.contains ('description-btn')) {
             overlay.style.display = 'block';
             this.classList.add('more-splash');
             document.body.style.overflow = 'hidden';
         }
     });
  
-    more.addEventListener('click', function () {
+    more.addEventListener('click', () => {
         overlay.style.display = 'block';
         this.classList.add('more-splash');
         document.body.style.overflow = 'hidden';
     });
 
-    close.addEventListener('click', function () {
+    close.addEventListener('click', () => {
         overlay.style.display = 'none';
         more.classList.remove('more-splash');
         document.body.style.overflow = '';

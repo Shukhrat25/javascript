@@ -102,7 +102,7 @@ alert(calculator.mul()); */
 
 
 
-let ladder = {
+/* let ladder = {
 	step: 0,
 	up() {
 	  this.step++;
@@ -118,4 +118,25 @@ let ladder = {
 	}
   };
 
-ladder.up().down().showStep();
+ladder.up().down().showStep(); */
+
+class Options {
+	constructor(height, width, bg, fontSize, textAlign) {
+		this.height = height;
+		this.width = width;
+		this.bg = bg;
+		this.fontSize = fontSize;
+		this.textAlign = textAlign;
+	}
+	createDiv() {
+		let elem = document.createElement('div');
+		elem.classList.add('test');
+		document.body.appendChild(elem);
+		elem.textContent = 'fdfdfdf';
+		let param = `height: ${this.height}px; width: ${this.width}px; background: ${this.bg}; font-size: ${this.fontSize}px; text-align: ${this.textAlign};`;
+		elem.style.cssText = param;
+	}
+}
+
+const obj = new Options(100, 150, 'red', 20, 'center');
+obj.createDiv();
