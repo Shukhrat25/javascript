@@ -102,7 +102,7 @@ alert(calculator.mul()); */
 
 
 
-/* let ladder = {
+let ladder = {
 	step: 0,
 	up() {
 	  this.step++;
@@ -118,9 +118,9 @@ alert(calculator.mul()); */
 	}
   };
 
-ladder.up().down().showStep(); */
+ladder.up().down().showStep();
 
-class Options {
+/* class Options {
 	constructor(height, width, bg, fontSize, textAlign) {
 		this.height = height;
 		this.width = width;
@@ -139,4 +139,4 @@ class Options {
 }
 
 const obj = new Options(100, 150, 'red', 20, 'center');
-obj.createDiv();
+obj.createDiv(); */
