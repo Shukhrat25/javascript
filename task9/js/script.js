@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    infoHeader.addEventListener('click', (event) => {
+    infoHeader.addEventListener('click', function(event) {
         let target = event.target;
         if (target && target.classList.contains('info-header-tab')) {
             for (let i = 0; i < tab.length; i++) {
@@ -84,15 +84,15 @@ window.addEventListener('DOMContentLoaded', () => {
         close = document.querySelector('.popup-close');
 
 
-    info.addEventListener('click', (event) => {
+    info.addEventListener('click', function(event) {
         let target = event.target;
-        if (target && target.classList.contains ('description-btn')) {
+        if (target && target.classList.contains('description-btn')) {
             overlay.style.display = 'block';
             this.classList.add('more-splash');
             document.body.style.overflow = 'hidden';
         }
     });
- 
+
     more.addEventListener('click', () => {
         overlay.style.display = 'block';
         this.classList.add('more-splash');
@@ -115,43 +115,45 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let form = document.querySelector('.main-form'),
         input = form.getElementsByTagName('input'),
-        sform = document.getElementById(form),
+        formBottom = document.getElementById('form'),
         statusMessage = document.createElement('div');
+    statusMessage.classList.add('status');
 
-        statusMessage.classList.add('status');
-        
+    function sendForm(elem) {
+        elem.addEventListener('submit', function (event) {
+            event.preventDefault();
+            elem.appendChild(statusMessage);
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        form.appendChild(statusMessage);
+            let request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); //form method
+            request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-        // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); //form method
-        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            let formData = new FormData(elem);
 
-        let formData = new FormData(form);
+            let obj = {};
+            formData.forEach(function (value, key) {
+                obj[key] = value;
+            });
+            let json = JSON.stringify(obj);
+            request.send(json);
+            // request.send(formData); //form method
 
-        let obj = {};
-        formData.forEach(function(value, key) {
-            obj[key] = value;
+            request.addEventListener('readystatechange', function () {
+                if (request.readyState < 4) {
+                    statusMessage.innerHTML = message.loading;
+                } else if (request.readyState === 4 && request.status == 200) {
+                    statusMessage.innerHTML = message.success;
+                } else {
+                    statusMessage.innerHTML = message.failure;
+                }
+
+                for (let i = 0; i < input.length; i++) {
+                    input[i].value = '';
+                }
+            });
         });
-        let json = JSON.stringify(obj);
-        request.send(json);
-        // request.send(formData); //form method
-
-        request.addEventListener('readystatechange', function() {
-            if (request.readyState < 4) {
-                statusMessage.innerHTML = message.loading;
-            } else if (request.readyState === 4 && request.status == 200) {
-                statusMessage.innerHTML = message.success;
-            } else {
-                statusMessage.innerHTML = message.failure;
-            }
-
-            for (let i = 0; i < input.length; i++) {
-                input[i].value = '';
-            }
-        });
-    }); 
+    }
+    sendForm(form);
+    sendForm(formBottom);
 });
